@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row header">
+    <div class="col-sm-12">
+      <%= link_to image_tag("stock_viewer.png"), root_path %>
+    </div>
+  </div>
+  <div>
+    <% flash.each do |_, value| %>
+      <div class="alert alert-dark" role="alert"><%= value %></div>
+    <% end %>
+
+    <form class="row justify-content-md-center" method="get" action="/">
+      <div class="col col-lg-2">
+        <label class="visually-hidden" for="specificSizeInputName">Name</label>
+        <input type="text" class="form-control" id="stock_symbol" placeholder="Stock Symbol">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Find</button>
+      </div>
+    </form>
+  </div>
+</div>
