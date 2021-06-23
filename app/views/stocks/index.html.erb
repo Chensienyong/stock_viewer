@@ -12,11 +12,43 @@
     <form class="row justify-content-md-center" method="get" action="/">
       <div class="col col-lg-2">
         <label class="visually-hidden" for="specificSizeInputName">Name</label>
-        <input type="text" class="form-control" id="stock_symbol" placeholder="Stock Symbol">
+        <input type="text" class="form-control" id="stock_symbol" placeholder="Stock Symbol" name="search" value=<%= @stock_symbol %>>
       </div>
       <div class="col-auto">
         <button type="submit" class="btn btn-primary">Find</button>
       </div>
     </form>
   </div>
+  <% if @daily_series.present? %>
+    <div class="row">
+      <%
+        require 'date'
+
+        def candlestick_data
+          @daily_series.map {|i| [i['date'].to_date, ohlc(i)] }.to_h
+        end
+
+        def ohlc(curr)
+          open = curr['open']
+          high = curr['high']
+          low = curr['low']
+          close = curr['close']
+          [open, high, low, close]
+        end
+
+        candlestick_options = {
+            plot_options: {
+                candlestick: {
+                    colors: {
+                        upward: '#1de051',
+                        downward: '#e03a1d'
+                    }
+                }
+            }
+        }
+      %>
+
+      <%= candlestick_chart(candlestick_data, candlestick_options) %>
+    </div>
+  <% end %>
 </div>

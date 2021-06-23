@@ -1,10 +1,11 @@
 class StocksController < ApplicationController
   def index
-  end
+    @stock_symbol = params[:search]
 
-  def daily
-    @daily_series = StockyService.get_daily_series(params[:stock_symbol])
+    return if @stock_symbol.nil?
 
-    redirect_to root_path, notice: "Fail to show #{params[:stock_symbol]}!" if @daily_series.nil?
+    @daily_series = StockyService.get_daily_series(@stock_symbol)
+
+    flash[:error] = "Fail to show #{@stock_symbol}!" if @daily_series.nil?
   end
 end

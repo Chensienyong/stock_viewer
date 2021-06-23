@@ -1,3 +1,6 @@
+# app/services/stocky_service.rb
+
+# Service to get stock data
 class StockyService
 
   def self.get_daily_series(stock_symbol)
@@ -6,15 +9,11 @@ class StockyService
     response = nil
     begin
       response = HTTParty.get(request_uri, basic_auth: basic_auth)
-    rescue HTTParty::Error
+    rescue HTTParty::Error, StandardError
       Rails.logger.error('Fail to fetch from Stocky due to unexpected error!')
-    rescue StandardError
-      Rails.logger.error('Fail to fetch from Stocky!')
     end
 
-    if response.present? && response.code == 200
-      return response.parsed_response['data']['daily_series']
-    end
+    return response.parsed_response['data']['daily_series'] if response.present? && response.code == 200
 
     nil
   end
