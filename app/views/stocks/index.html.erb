@@ -5,8 +5,9 @@
     </div>
   </div>
   <div>
-    <% flash.each do |_, value| %>
+    <% flash.each do |key, value| %>
       <div class="alert alert-dark" role="alert"><%= value %></div>
+      <% flash.discard(key) %>
     <% end %>
 
     <form class="row justify-content-md-center" method="get" action="/">
